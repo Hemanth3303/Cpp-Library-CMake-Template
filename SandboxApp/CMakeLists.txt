@@ -68,7 +68,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 			PUBLIC
 
 			PRIVATE
-				-static
 				-static-libgcc
 				-static-libstdc++
 		)
@@ -82,7 +81,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 			PUBLIC
 
 			PRIVATE
-				-static
 		)
 	endif()
 
@@ -110,7 +108,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PUBLIC
 
 			PRIVATE
-				-static
 				-static-libgcc
 				-static-libstdc++
 		)
@@ -124,7 +121,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PUBLIC
 
 			PRIVATE
-				-static
 		)
 	endif()
 
