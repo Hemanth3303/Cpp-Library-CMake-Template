@@ -1,6 +1,7 @@
 file(GLOB_RECURSE MY_LIBRARY_SRC CONFIGURE_DEPENDS "*.h" "*.c" "*.hpp" "*.cpp")
 
 add_library(MyLibrary
+	STATIC
 	${MY_LIBRARY_SRC}
 )
 
@@ -53,9 +54,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 	elseif(MINGW)
 		target_link_libraries(MyLibrary
 			PUBLIC
-
-			PRIVATE
 				m
+			PRIVATE
+
 		)
 		target_link_options(MyLibrary
 			PUBLIC
@@ -91,11 +92,11 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		target_link_libraries(MyLibrary
 			PUBLIC
-
-			PRIVATE
 				dl
 				m
 				pthread
+			PRIVATE
+
 		)
 		target_link_options(MyLibrary
 			PUBLIC

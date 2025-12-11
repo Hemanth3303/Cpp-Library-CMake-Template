@@ -60,14 +60,15 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 	elseif(MINGW)
 		target_link_libraries(SandboxApp
 			PUBLIC
-
-			PRIVATE
 				m
+			PRIVATE
+
 		)
 		target_link_options(SandboxApp
 			PUBLIC
 
 			PRIVATE
+				-static
 				-static-libgcc
 				-static-libstdc++
 		)
@@ -81,6 +82,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 			PUBLIC
 
 			PRIVATE
+				-static
+				-static-libstdc++
 		)
 	endif()
 
@@ -98,18 +101,16 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		target_link_libraries(SandboxApp
 			PUBLIC
-
-			PRIVATE
 				dl
 				m
 				pthread
+			PRIVATE
+
 		)
 		target_link_options(SandboxApp
 			PUBLIC
 
 			PRIVATE
-				-static-libgcc
-				-static-libstdc++
 		)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 		target_link_libraries(SandboxApp
@@ -137,7 +138,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
 endif()
 
-# bCONFIGURATION SPECIFIC
+# CONFIGURATION SPECIFIC
 
 target_compile_definitions(SandboxApp
 	PUBLIC
