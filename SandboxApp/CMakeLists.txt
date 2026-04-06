@@ -11,7 +11,6 @@ set_target_properties(SandboxApp PROPERTIES
 	C_STANDARD 17
 	C_STANDARD_REQUIRED ON
 	C_EXTENSIONS OFF
-	POSITION_INDEPENDENT_CODE ON
 	OUTPUT_NAME SandboxApp
 )
 
@@ -159,7 +158,7 @@ target_compile_definitions(SandboxApp
 add_custom_command(
 	TARGET SandboxApp POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
-		${CMAKE_CURRENT_SOURCE_DIR}/res
-		${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/res
+		"${CMAKE_CURRENT_SOURCE_DIR}/res"
+		"$<TARGET_FILE_DIR:SandboxApp>/res"
 	COMMENT "Copying resource folder to binary directory"
 )
