@@ -35,6 +35,9 @@ target_compile_definitions(SandboxApp
 		SANDBOX_APP
 )
 
+cmake_base_target_platform_definitions(SandboxApp SANDBOX_APP)
+cmake_base_target_architecture_definitions(SandboxApp SANDBOX_APP)
+
 # PLATFORM AND COMPILER SPECIFIC
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -46,7 +49,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 			NOMINMAX
 			_CRT_SECURE_NO_WARNINGS
 			WIN32_LEAN_AND_MEAN
-			SANDBOX_APP_PLATFORM_WINDOWS
 	)
 
 	if(MSVC)
@@ -90,13 +92,6 @@ endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 
-	target_compile_definitions(SandboxApp
-		PUBLIC
-
-		PRIVATE
-			SANDBOX_APP_PLATFORM_LINUX
-	)
-
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		target_link_libraries(SandboxApp
 			PUBLIC
@@ -123,17 +118,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PRIVATE
 		)
 	endif()
-
-endif()
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-
-	target_compile_definitions(SandboxApp
-		PUBLIC
-
-		PRIVATE
-			SANDBOX_APP_PLATFORM_OSX
-	)
 
 endif()
 
