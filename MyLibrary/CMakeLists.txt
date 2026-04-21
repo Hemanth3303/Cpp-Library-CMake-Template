@@ -102,8 +102,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PUBLIC
 
 			PRIVATE
-				-static-libgcc
-				-static-libstdc++
+
 		)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 		target_link_libraries(MyLibrary
@@ -115,6 +114,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 			PUBLIC
 
 			PRIVATE
+
 		)
 	endif()
 
