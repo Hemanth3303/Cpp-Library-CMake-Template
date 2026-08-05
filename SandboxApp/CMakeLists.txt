@@ -33,10 +33,19 @@ target_compile_definitions(SandboxApp
 
 	PRIVATE
 		SANDBOX_APP
+		$<$<CONFIG:Debug>:SANDBOX_APP_DEBUG_BUILD>
+		$<$<CONFIG:Debug>:DEBUG>
+
+		$<$<CONFIG:Profile>:SANDBOX_APP_PROFILE_BUILD>
+		$<$<CONFIG:Profile>:NDEBUG>
+
+		$<$<CONFIG:Release>:SANDBOX_APP_RELEASE_BUILD>
+		$<$<CONFIG:Release>:NDEBUG>
 )
 
 cmake_base_target_platform_definitions(SandboxApp SANDBOX_APP)
 cmake_base_target_architecture_definitions(SandboxApp SANDBOX_APP)
+cmake_base_apply_sanitizers(SandboxApp SANITIZERS ASAN UBSAN CONFIGS Debug)
 
 # PLATFORM AND COMPILER SPECIFIC
 
@@ -119,22 +128,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	endif()
 
 endif()
-
-# CONFIGURATION SPECIFIC
-
-target_compile_definitions(SandboxApp
-	PUBLIC
-
-	PRIVATE
-		$<$<CONFIG:Debug>:SANDBOX_APP_DEBUG_BUILD>
-		$<$<CONFIG:Debug>:DEBUG>
-
-		$<$<CONFIG:Profile>:SANDBOX_APP_PROFILE_BUILD>
-		$<$<CONFIG:Profile>:NDEBUG>
-
-		$<$<CONFIG:Release>:SANDBOX_APP_RELEASE_BUILD>
-		$<$<CONFIG:Release>:NDEBUG>
-)
 
 # POST-BUILD RESOURCE COPY
 

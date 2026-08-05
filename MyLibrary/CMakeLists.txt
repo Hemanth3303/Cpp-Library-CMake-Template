@@ -28,10 +28,19 @@ target_compile_definitions(MyLibrary
 
 	PRIVATE
 		MY_LIBRARY
+		$<$<CONFIG:Debug>:MY_LIBRARY_DEBUG_BUILD>
+		$<$<CONFIG:Debug>:DEBUG>
+
+		$<$<CONFIG:Profile>:MY_LIBRARY_PROFILE_BUILD>
+		$<$<CONFIG:Profile>:NDEBUG>
+
+		$<$<CONFIG:Release>:MY_LIBRARY_RELEASE_BUILD>
+		$<$<CONFIG:Release>:NDEBUG>
 )
 
 cmake_base_target_platform_definitions(MyLibrary MY_LIBRARY)
 cmake_base_target_architecture_definitions(MyLibrary MY_LIBRARY)
+cmake_base_apply_sanitizers(MyLibrary SANITIZERS ASAN UBSAN CONFIGS Debug)
 
 # PLATFORM AND COMPILER SPECIFIC
 
@@ -113,19 +122,3 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	endif()
 
 endif()
-
-# CONFIGURATION SPECIFIC
-
-target_compile_definitions(MyLibrary
-	PUBLIC
-
-	PRIVATE
-		$<$<CONFIG:Debug>:MY_LIBRARY_DEBUG_BUILD>
-		$<$<CONFIG:Debug>:DEBUG>
-
-		$<$<CONFIG:Profile>:MY_LIBRARY_PROFILE_BUILD>
-		$<$<CONFIG:Profile>:NDEBUG>
-
-		$<$<CONFIG:Release>:MY_LIBRARY_RELEASE_BUILD>
-		$<$<CONFIG:Release>:NDEBUG>
-)
