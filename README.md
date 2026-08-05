@@ -1,6 +1,9 @@
 # Cpp-Library-CMake-Template
 A template for making a Static Library in C++ using CMake
 
+## Note
+ASAN and UBSAN (if available) are enabled for both SanboxApp and MyLibrary in debug build in this template example.
+
 ## Usage Example
 First clone the repo recursively.
 
