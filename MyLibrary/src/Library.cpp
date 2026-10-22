@@ -16,13 +16,13 @@ void Logger::LogMessage(const std::string& message) {
 
 void myLibraryPrintConfigInfo() {
 #if defined(MY_LIBRARY_DEBUG_BUILD)
-    std::cout << "APPLICATION: Debug Build\n";
+    std::cout << "MY_LIBRARY: Debug Build\n";
 #elif defined(MY_LIBRARY_PROFILE_BUILD)
-    std::cout << "APPLICATION: Profile Build\n";
+    std::cout << "MY_LIBRARY: Profile Build\n";
 #elif defined(MY_LIBRARY_RELEASE_BUILD)
-    std::cout << "APPLICATION: Release Build\n";
+    std::cout << "MY_LIBRARY: Release Build\n";
 #else
-    std::cout << "APPLICATION: Unknown Build\n";
+    std::cout << "MY_LIBRARY: Unknown Build\n";
 #endif
 }
 
