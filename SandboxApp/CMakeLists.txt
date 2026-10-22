@@ -28,114 +28,28 @@ target_link_libraries(SandboxApp
 		MyLibrary
 )
 
-target_compile_definitions(SandboxApp
-	PUBLIC
-
-	PRIVATE
-		SANDBOX_APP
-		$<$<CONFIG:Debug>:SANDBOX_APP_DEBUG_BUILD>
-		$<$<CONFIG:Debug>:DEBUG>
-
-		$<$<CONFIG:Profile>:SANDBOX_APP_PROFILE_BUILD>
-		$<$<CONFIG:Profile>:NDEBUG>
-
-		$<$<CONFIG:Release>:SANDBOX_APP_RELEASE_BUILD>
-		$<$<CONFIG:Release>:NDEBUG>
-)
-
-cmake_base_target_platform_definitions(SandboxApp SANDBOX_APP)
-cmake_base_target_architecture_definitions(SandboxApp SANDBOX_APP)
+cmake_base_configure_target(SandboxApp)
+cmake_base_apply_target_definitions(SandboxApp SANDBOX_APP)
+cmake_base_apply_os_definitions_to_target(SandboxApp SANDBOX_APP)
+cmake_base_apply_architecture_definitions_to_target(SandboxApp SANDBOX_APP)
+cmake_base_apply_compiler_definitions_to_target(SandboxApp SANDBOX_APP)
 cmake_base_apply_sanitizers(SandboxApp SANITIZERS ASAN UBSAN CONFIGS Debug)
 
-# PLATFORM AND COMPILER SPECIFIC
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-
-	target_compile_definitions(SandboxApp
-		PUBLIC
-
-		PRIVATE
-			NOMINMAX
-			_CRT_SECURE_NO_WARNINGS
-			WIN32_LEAN_AND_MEAN
-	)
-
-	if(MSVC)
-		target_compile_options(SandboxApp
-			PUBLIC
-
-			PRIVATE
-				/Zc:__cplusplus
-				/Zc:preprocessor
-		)
-	elseif(MINGW)
-		target_link_libraries(SandboxApp
-			PUBLIC
-				m
-			PRIVATE
-
-		)
-		target_link_options(SandboxApp
-			PUBLIC
-
-			PRIVATE
-				-static
-				-static-libgcc
-				-static-libstdc++
-		)
-	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(SandboxApp
-			PUBLIC
-
-			PRIVATE
-		)
-		target_link_options(SandboxApp
-			PUBLIC
-
-			PRIVATE
-				-static
-		)
-	endif()
-
-endif()
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-
-	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		target_link_libraries(SandboxApp
-			PUBLIC
-				dl
-				m
-				pthread
-			PRIVATE
-
-		)
-		target_link_options(SandboxApp
-			PUBLIC
-
-			PRIVATE
-		)
-	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-		target_link_libraries(SandboxApp
-			PUBLIC
-
-			PRIVATE
-		)
-		target_link_options(SandboxApp
-			PUBLIC
-
-			PRIVATE
-		)
-	endif()
-
-endif()
-
 # POST-BUILD RESOURCE COPY
-
 add_custom_command(
 	TARGET SandboxApp POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		"${CMAKE_CURRENT_SOURCE_DIR}/res"
 		"$<TARGET_FILE_DIR:SandboxApp>/res"
 	COMMENT "Copying resource folder to binary directory"
+)
+
+# adding res to install
+# cmake-base already handles bin, lib and include
+# Note to future self:
+# res/ means copy contents of res to bin/res
+# if just res, then it will copy to bin/res/res
+install(
+	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/res/"
+    DESTINATION bin/res
 )
